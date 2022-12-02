@@ -32,22 +32,24 @@ let unicorn = new Image('unicorn', './img/unicorn.jpg');
 let waterCan = new Image('water-can', './img/water-can.jpg');
 let wineGlass = new Image('wine-glass', './img/wine-glass.jpg');
 
-let images = [bag, banana, boots, bathroom, breakfast]
+let images = [bag, banana, boots, bathroom, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass];
+
+
 
 function randomImageIndex(){
-    return Math.floor(Math.random() * Image.length)
+  return Math.floor(Math.random() * Image.length);
 }
 
 // render function: invoke function on page load, I want to render 3 random images
 function renderImages(){
-    let firstImage = image[randomImageIndex()];
-    let secondImage = image[randomImageIndex()];
-    let thirdImage = image[randomImageIndex()];
+  let firstImage = images[randomImageIndex()];
+  let secondImage = images[randomImageIndex()];
+  let thirdImage = images[randomImageIndex()];
 
-    // DOM Manipulation
-    image1.src = firstImage.src;
-    image2.src = secondImage.src; 
-    image3.src = thirdImage.src; 
+  // DOM Manipulation
+  image1.src = firstImage.src;
+  image2.src = secondImage.src;
+  image3.src = thirdImage.src;
 
 }
 
