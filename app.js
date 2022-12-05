@@ -4,17 +4,23 @@
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:last-child');
+let resultsButton = document.getElementById('results');
+let index1 = 0;
+let index2 = 0;
+let index3 = 0;
+let clicks = 0;
 
 
 let Image = function(name, src){
   this.name = name;
   this.src = src;
   this.clicks = 0;
+  this.views = 0;
 };
 
-let bag = new Image('bag', './img/bag.jpg,');
+let bag = new Image('bag', './img/bag.jpg');
 let banana = new Image('banana', './img/banana.jpg');
-let bathroom = new Image('bathroom', '.img/bathroom.jpg');
+let bathroom = new Image('bathroom', './img/bathroom.jpg');
 let boots = new Image('boot', './img/boots.jpg');
 let breakfast = new Image('breakfast', './img/breakfast.jpg');
 let bubblegum = new Image('bubblegum', './img/bubblegum.jpg');
@@ -35,26 +41,91 @@ let wineGlass = new Image('wine-glass', './img/wine-glass.jpg');
 let images = [bag, banana, boots, bathroom, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass];
 
 
-
+// get random index pf our images array
 function randomImageIndex(){
-  return Math.floor(Math.random() * Image.length);
+  return Math.floor(Math.random() * images.length); /* number between 0-18*/
 }
 
 // render function: invoke function on page load, I want to render 3 random images
 function renderImages(){
-  let firstImage = images[randomImageIndex()];
-  let secondImage = images[randomImageIndex()];
-  let thirdImage = images[randomImageIndex()];
+  for (let i = 0; i < images.concat.length; i++){
+    index1 = randomImageIndex();
+    index2 = randomImageIndex();
+    index3 = randomImageIndex();
 
-  // DOM Manipulation
-  image1.src = firstImage.src;
-  image2.src = secondImage.src;
-  image3.src = thirdImage.src;
+    // make the random images be different. we use a while loop instead of for loop because a for loop will keep looping once the statement is true. we want it to move on once true.
+    while (index1 === index2 || index2 === index3 || index1 === index3) {
+      index1 = randomImageIndex();
+      index2 = randomImageIndex();
+      index3 = randomImageIndex();
+    }
 
+    let firstImage = images[index1];
+    let secondImage = images[index2];
+    let thirdImage = images[index3];
+
+    // DOM Manipulation
+    image1.src = firstImage.src;
+    image1.alt = firstImage.name;
+    image1.title = firstImage.name;
+    image1.id = index1;
+    image2.src = secondImage.src;
+    image2.alt = secondImage.name;
+    image2.title = secondImage.name;
+    image2.id = index2;
+    image3.src = thirdImage.src;
+    image3.alt = thirdImage.name;
+    image3.title = thirdImage.name;
+    image3.id = index3;
+
+    // increwment views
+    firstImage.views++;
+    secondImage.views++;
+    thirdImage.views++;
+  }
 }
 
+// event handler
+  // increment image .clicks
+  // render 3 new images
+function handleImageclick(event) {
+  clicks++;
+  // the event object knows about the event, and the element targeted
+  console.log(event.target);
+
+  // increment the number of times clicked by targetting each images id
+  images[event.target.id].clicks++;
+
+  if (clicks > 24) {
+    // remove the event listener
+    image1.removeEventListener('click', handleImageclick);
+    image2.removeEventListener('click', handleImageclick);
+    image3.removeEventListener('click', handleImageclick);
+  }
+
+  console.log(images);
+  renderImages();
+}
+
+// results button function to display unordered lis
+function viewResults(event) {
+  let ulParent = document.querySelector('ul');
+  // make one li for each images inside the images array
+  for (let i =0; i < images.length; i++) {
+    let li = document.createElement('li');
+    li.innerText = `${images[i].name} has ${images[i].clicks} votes, and was seen ${images[i].views} times`;
+    ulParent.appendChild(li);
+  }
+}
+
+
 // render on page load
+image1.addEventListener('click', handleImageclick);
+image2.addEventListener('click', handleImageclick);
+image3.addEventListener('click', handleImageclick);
+resultsButton.addEventListener('click', viewResults);
 renderImages();
+
 
 
 
