@@ -4,9 +4,11 @@
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:last-child');
+let resultsButton = document.getElementById('results');
 let index1 = 0;
 let index2 = 0;
 let index3 = 0;
+let clicks = 0;
 
 
 let Image = function(name, src){
@@ -66,12 +68,15 @@ function renderImages(){
     image1.src = firstImage.src;
     image1.alt = firstImage.name;
     image1.title = firstImage.name;
+    image1.id = index1;
     image2.src = secondImage.src;
     image2.alt = secondImage.name;
     image2.title = secondImage.name;
+    image2.id = index2;
     image3.src = thirdImage.src;
     image3.alt = thirdImage.name;
     image3.title = thirdImage.name;
+    image3.id = index3;
 
     // increwment views
     firstImage.views++;
@@ -80,38 +85,45 @@ function renderImages(){
   }
 }
 
-// even handler
-// what happens when our viewers click an image?
+// event handler
   // increment image .clicks
   // render 3 new images
 function handleImageclick(event) {
+  clicks++;
   // the event object knows about the event, and the element targeted
   console.log(event.target);
 
-  // how to increment the correct image clicked
-  // method to iterate over the image array
-  // 1. iterate over images
-  // 2. if images[i].alt == event.target
-  // another method:
-  // use global index variables
-  if (images[index1].name === event.target.name) {
-    images[image1].clicks++;
-  }
-  if (images[index2].name === event.target.name) {
-    images[image2].clicks++;
-  }
-  if (images[index3].name === event.target.name) {
-    images[image3].clicks++;
+  // increment the number of times clicked by targetting each images id
+  images[event.target.id].clicks++;
+
+  if (clicks > 24) {
+    // remove the event listener
+    image1.removeEventListener('click', handleImageclick);
+    image2.removeEventListener('click', handleImageclick);
+    image3.removeEventListener('click', handleImageclick);
   }
 
   console.log(images);
   renderImages();
 }
 
+// results button function to display unordered lis
+function viewResults(event) {
+  let ulParent = document.querySelector('ul');
+  // make one li for each images inside the images array
+  for (let i =0; i < images.length; i++) {
+    let li = document.createElement('li');
+    li.innerText = `${images[i].name} has ${images[i].clicks} votes, and was seen ${images[i].views} times`;
+    ulParent.appendChild(li);
+  }
+}
+
+
 // render on page load
 image1.addEventListener('click', handleImageclick);
 image2.addEventListener('click', handleImageclick);
 image3.addEventListener('click', handleImageclick);
+resultsButton.addEventListener('click', viewResults);
 renderImages();
 
 
