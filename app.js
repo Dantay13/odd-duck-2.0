@@ -40,6 +40,27 @@ let wineGlass = new Image('wine-glass', './img/wine-glass.jpg');
 
 let images = [bag, banana, boots, bathroom, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass];
 
+let uniqueImages = [];
+
+// get 1 random image from images into uniqueImages array
+for (let i = 0; i < 25; i++) {
+  while (uniqueImages.length < 6) {
+    let randomIndex = randomImageIndex();
+    if (!uniqueImages.includes(images[randomIndex])) {
+      uniqueImages.push(images[randomIndex]);
+    }
+  }
+
+  let first = uniqueImages.shift();
+  let second = uniqueImages.shift();
+  let third = uniqueImages.shift();
+
+  console.log(first, second, third);
+}
+
+
+// console.log('this is a random unique number', uniqueImages);
+
 
 // get random index pf our images array
 function randomImageIndex(){
