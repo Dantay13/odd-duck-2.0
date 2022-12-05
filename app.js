@@ -10,11 +10,12 @@ let Image = function(name, src){
   this.name = name;
   this.src = src;
   this.clicks = 0;
+  this.views = 0;
 };
 
 let bag = new Image('bag', './img/bag.jpg,');
 let banana = new Image('banana', './img/banana.jpg');
-let bathroom = new Image('bathroom', '.img/bathroom.jpg');
+let bathroom = new Image('bathroom', './img/bathroom.jpg');
 let boots = new Image('boot', './img/boots.jpg');
 let breakfast = new Image('breakfast', './img/breakfast.jpg');
 let bubblegum = new Image('bubblegum', './img/bubblegum.jpg');
@@ -35,26 +36,30 @@ let wineGlass = new Image('wine-glass', './img/wine-glass.jpg');
 let images = [bag, banana, boots, bathroom, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, waterCan, wineGlass];
 
 
-
+// get random index pf our images array
 function randomImageIndex(){
-  return Math.floor(Math.random() * Image.length);
+  return Math.floor(Math.random() * images.length); /* number between 0-18*/
 }
 
 // render function: invoke function on page load, I want to render 3 random images
 function renderImages(){
-  let firstImage = images[randomImageIndex()];
-  let secondImage = images[randomImageIndex()];
-  let thirdImage = images[randomImageIndex()];
+  for (let i = 0; i < images.concat.length; i++){
+    let firstImage = images[randomImageIndex()];
+    let secondImage = images[randomImageIndex()];
+    let thirdImage = images[randomImageIndex()];
+    // DOM Manipulation
+    image1.src = firstImage.src;
+    image2.src = secondImage.src;
+    image3.src = thirdImage.src;
+  }
 
-  // DOM Manipulation
-  image1.src = firstImage.src;
-  image2.src = secondImage.src;
-  image3.src = thirdImage.src;
 
 }
 
 // render on page load
 renderImages();
+
+// even handler
 
 
 
